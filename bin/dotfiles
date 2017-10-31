@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# pull changes from upstream
+
+DOTFILES="$HOME/.dotfiles"
+
+cd ${DOTFILES}
+
+echo
+echo "====================================================="
+
+git pull -v
+script/bootstrap
+
+echo
+echo "-----------------------------------------------------"
+echo
+

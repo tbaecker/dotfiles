@@ -1,0 +1,7 @@
+# Try to kill tl if present
+#----------------------------------------------------------------------
+TL=$(which tl)
+if [ ! -z $TL ]; then
+    MYTERM=`ps -o tty | sed -e '1d'| uniq`
+    pkill -t $MYTERM tl
+fi

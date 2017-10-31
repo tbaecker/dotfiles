@@ -1,0 +1,78 @@
+" All system-wide defaults are set in $VIMRUNTIME/debian.vim (usually just
+" /usr/share/vim/vimcurrent/debian.vim) and sourced by the call to :runtime
+" you can find below.  If you wish to change any of those settings, you should
+" do it in this file (/etc/vim/vimrc), since debian.vim will be overwritten
+" everytime an upgrade of the vim packages is performed.  It is recommended to
+" make changes after sourcing debian.vim since it alters the value of the
+" 'compatible' option.
+
+" This line should not be removed as it ensures that various options are
+" properly set to work with the Vim-related packages available in Debian.
+runtime! debian.vim
+
+" no, don't be compatibe to vi
+set nocompatible
+
+" Vim5 and later versions support syntax highlighting. Uncommenting the next
+" line enables syntax highlighting by default.
+syntax on
+
+" If using a dark background within the editing area and syntax highlighting
+" turn on this option as well
+"set background=dark
+
+" Uncomment the following to have Vim jump to the last position when
+" reopening a file
+"if has("autocmd")
+"  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+"endif
+
+" Uncomment the following to have Vim load indentation rules and plugins
+" according to the detected filetype.
+"if has("autocmd")
+"  filetype plugin indent on
+"endif
+
+" The following are commented out as they cause vim to behave a lot
+" differently from regular Vi. They are highly recommended though.
+set showcmd		    " Show (partial) command in status line.
+set showmatch		" Show matching brackets.
+"set ignorecase		" Do case insensitive matching
+"set smartcase		" Do smart case matching
+"set incsearch		" Incremental search
+"set autowrite		" Automatically save before commands like :next and :make
+"set hidden         " Hide buffers when they are abandoned
+"set mouse=a		" Enable mouse usage (all modes)
+set number          " display line numbers
+set autoindent      " copy the indentation from the previous line, when starting a new line
+set tabstop=4		" Insert 4 spaces for a tab
+set expandtab		" To insert space characters whenever the tab key is pressed
+set shiftwidth=4	" To change the number of space characters inserted for indentation
+set pastetoggle=<F2> " toggle paste mode - don't mess with spaces, tabs and cr/lf
+
+" Source a global configuration file if available
+if filereadable("/etc/vim/vimrc.local")
+  source /etc/vim/vimrc.local
+endif
+
+" enable setting title
+  set title
+
+" configure title to look like: Vim /path/to/file
+  set titlestring=VIM:\ %-25.55F\ %a%r%m titlelen=70
+
+" show the `best match so far' as search strings are typed
+  set incsearch
+
+" Highlight search results once found:
+  set hlsearch
+
+" highlight the current line the cursor is on
+  set cursorline
+
+" next tab
+map <C-n> :tabnext<CR>
+
+" optimize performance, disable cursorline with yaml files
+autocmd FileType yaml setlocal nocursorline
+

@@ -1,0 +1,67 @@
+export LS_OPTIONS='--color=auto'
+eval `dircolors`
+
+# user <> root -> sudo
+# ---------------------------------------------------------------------
+SUDO_PREFIX=''
+if [ $UID -ne 0 ]; then
+    SUDO_PREFIX='sudo '
+fi
+
+
+# modify PATH
+# ---------------------------------------------------------------------
+if [ -d $HOME/.dotfiles/bin ]; then
+    PATH=$HOME/.dotfiles/bin:$PATH
+fi
+
+# aliases
+# ---------------------------------------------------------------------
+alias ls='ls $LS_OPTIONS'
+alias ll='ls $LS_OPTIONS -l'
+alias l='ls $LS_OPTIONS -lA'
+alias dir='ls -l'
+alias la='ls -la'
+alias l='ls -alF'
+alias ls-l='ls -l'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias cds='cd /usr/src'
+alias cdl='cd /usr/local'
+alias cdi='cd /etc/init.d'
+alias cde='cd /etc'
+if [ -d /var/www ]; then 
+    alias cdw='cd /var/www'; 
+fi
+alias tm="${SUDO_PREFIX}tail -n35 /var/log/messages"
+alias ts="${SUDO_PREFIX}tail -n35 /var/log/syslog"
+
+# bash history adjusted
+# ----------------------------------------------------------------------
+export HISTCONTROL=ignoreboth
+export HISTIGNORE='ls:la:ll:history:df:sar:tm:tw'
+export HISTFILESIZE=100000
+export HISTSIZE=100000
+shopt -s histappend
+
+# bash completion for git
+# ----------------------------------------------------------------------
+if [ -e /etc/bash_completion.d/git ]; then
+    . /etc/bash_completion.d/git
+    PS1='\u@\h:\w$(__git_ps1 "[%s]")\$ '
+elif [ -e /etc/bash_completion.d/git-prompt ]; then
+    . /etc/bash_completion.d/git-prompt
+    PS1='\u@\h:\w$(__git_ps1 "[%s]")\$ '
+elif [ -e /usr/share/bash-completion/completions/git ]; then
+    . /usr/share/bash-completion/completions/git
+fi
+
+# loadavg4putty with a little help from tl
+# ----------------------------------------------------------------------
+TL=$(which tl)
+if [ ! -z $TL ]; then
+    if [ $TERM = xterm ] || [ $TERM = putty-256color ]; then
+        ${TL}&
+    fi
+fi

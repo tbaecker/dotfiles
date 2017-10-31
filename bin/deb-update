@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# user <> root -> sudo
+# ---------------------------------------------------------------------
+SUDO_PREFIX=''
+if [ $UID -ne 0 ]; then
+    SUDO_PREFIX='sudo '
+fi
+
+
+${SUDO_PREFIX}apt-get update
+${SUDO_PREFIX}apt-get autoclean
+${SUDO_PREFIX}apt-get --show-upgraded upgrade
+
