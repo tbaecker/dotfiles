@@ -9,6 +9,44 @@ cd ${DOTFILES}
 echo
 echo "====================================================="
 
+# Make sure we push via ssh to prevent git asking for username and password
+# inspired by https://gist.github.com/m14t/3056747
+
+PUSH_URL=`git remote get-url --push origin`
+
+# is the remote for push already set to ssh?
+if [[ "$PUSH_URL" =~ ^git@github\.com.* ]]; then
+  echo "Push url already set to ssh:"
+  echo "$PUSH_URL"
+else
+  USER=`echo $PUSH_URL | sed -Ene's#https://github.com/([^/]*)/(.*).git#\1#p'`
+  if [ -z "$USER" ]; then
+    echo "-- ERROR:  Could not identify User."
+    exit
+  fi
+
+  REPO=`echo $PUSH_URL | sed -Ene's#https://github.com/([^/]*)/(.*).git#\2#p'`
+  if [ -z "$REPO" ]; then
+    echo "-- ERROR:  Could not identify Repo."
+    exit
+  fi
+
+  NEW_URL="git@github.com:$USER/$REPO.git"
+  echo "Changing repo url (push) from"
+  echo "  '$PUSH_URL'"
+  echo "      to "
+  echo "  '$NEW_URL'"
+  echo ""
+
+  CHANGE_CMD="git remote set-url --push origin $NEW_URL"
+  `$CHANGE_CMD`
+
+  echo "Done"
+fi
+
+echo
+echo "====================================================="
+
 git pull -v
 script/bootstrap
 
