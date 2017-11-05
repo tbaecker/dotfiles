@@ -12,7 +12,7 @@ Run this:
 
 ```sh
 
-git clone https://github.com/tbaecker/dotfiles ~/.dotfiles
+git clone https://github.com/tbaecker/dotfiles.git ~/.dotfiles
 ~/.dotfiles/script/bootstrap
 ```
 
