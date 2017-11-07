@@ -13,7 +13,7 @@ Run this:
 ```sh
 
 git clone https://github.com/tbaecker/dotfiles.git ~/.dotfiles
-~/.dotfiles/script/bootstrap
+~/.dotfiles/bin/dotfiles
 ```
 
 This will symlink the appropriate files in `.dotfiles` to your home directory.

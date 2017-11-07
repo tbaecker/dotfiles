@@ -4,7 +4,7 @@
 
 DOTFILES="$HOME/.dotfiles"
 
-cd ${DOTFILES}
+cd "${DOTFILES}"
 
 echo
 echo "====================================================="
@@ -16,20 +16,20 @@ echo "====================================================="
 #PUSH_URL=`git remote get-url --push origin`
 
 # workaround
-PUSH_URL=`git remote -v | grep "(push)" | sed 's/^origin\(.*\)[[:space:]](push)/\1/' | sed 's/^[[:space:]]*//g'`
+PUSH_URL=$(git remote -v | grep "(push)" | sed 's/^origin\(.*\)[[:space:]](push)/\1/' | sed 's/^[[:space:]]*//g')
 
 # is the remote for push already set to ssh?
 if [[ "$PUSH_URL" =~ ^git@github\.com.* ]]; then
   echo "Push url already set to ssh:"
   echo "$PUSH_URL"
 else
-  USER=`echo $PUSH_URL | sed -Ene's#https://github.com/([^/]*)/(.*).git#\1#p'`
+  USER=$(echo "$PUSH_URL" | sed -Ene's#https://github.com/([^/]*)/(.*).git#\1#p')
   if [ -z "$USER" ]; then
     echo "-- ERROR:  Could not identify User."
     exit
   fi
 
-  REPO=`echo $PUSH_URL | sed -Ene's#https://github.com/([^/]*)/(.*).git#\2#p'`
+  REPO=$(echo "$PUSH_URL" | sed -Ene's#https://github.com/([^/]*)/(.*).git#\2#p')
   if [ -z "$REPO" ]; then
     echo "-- ERROR:  Could not identify Repo."
     exit
@@ -42,8 +42,7 @@ else
   echo "  '$NEW_URL'"
   echo ""
 
-  CHANGE_CMD="git remote set-url --push origin $NEW_URL"
-  `$CHANGE_CMD`
+  git remote set-url --push origin "$NEW_URL"
 
   echo "Done"
 fi
@@ -52,6 +51,8 @@ echo
 echo "====================================================="
 
 git pull -v
+git submodule init
+git submodule update
 script/bootstrap
 
 echo
