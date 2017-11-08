@@ -1,13 +1,15 @@
 #!/bin/bash
-
-# pull changes from upstream
+#
+# bootstrap or update dotfiles
 
 DOTFILES="$HOME/.dotfiles"
 
-cd "${DOTFILES}"
+cd "${DOTFILES}" || exit 1
 
 echo
-echo "====================================================="
+echo "------------------------------------------------------------------------------"
+echo "Checking dotfiles for updates"
+echo "------------------------------------------------------------------------------"
 
 # Make sure we push via ssh to prevent git asking for username and password
 # inspired by https://gist.github.com/m14t/3056747
@@ -47,15 +49,12 @@ else
   echo "Done"
 fi
 
-echo
-echo "====================================================="
+echo "------------------------------------------------------------------------------"
 
 git pull -v
-git submodule init
-git submodule update
+git submodule update --init
 script/bootstrap
 
-echo
-echo "-----------------------------------------------------"
+echo "------------------------------------------------------------------------------"
 echo
 

@@ -9,10 +9,22 @@ if [ $UID -ne 0 ]; then
 fi
 
 
-# modify PATH
+# dotfiles
 # ---------------------------------------------------------------------
 if [ -d $HOME/.dotfiles/bin ]; then
     PATH=$HOME/.dotfiles/bin:$PATH
+
+    # sync dotfiles at least once a day on login
+    dotlock="/tmp/lock-${UID}-dotfiles"
+    if [[ ! -e $dotlock ]]; then
+        $HOME/.dotfiles/bin/dotfiles
+        touch $dotlock
+    else # lock exists
+        if [[ "`find $dotlock -mmin +1440`" ]]; then
+            $HOME/.dotfiles/bin/dotfiles
+            touch $dotlock
+        fi
+    fi
 fi
 
 # aliases
