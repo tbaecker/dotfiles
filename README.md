@@ -42,6 +42,14 @@ There's a few special files in the hierarchy:
   symlinked in when you run `script/bootstrap`.
 - **topic/install.sh**: Any file named install.sh is executed when you run `script/install`
 
+## Vim
+
+My vim comes with these plugins:
+
+- [pathogen](https://github.com/tpope/vim-pathogen) manage your runtimepath
+- [syntastic](https://github.com/vim-syntastic/syntastic) syntax checking hacks for vim
+- [tabular](https://github.com/godlygeek/tabular) text filtering and alignment
+
 ## Credits
 
 While trying to get my dotfiles organized, https://dotfiles.github.io/ was
