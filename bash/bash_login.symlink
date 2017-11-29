@@ -14,13 +14,13 @@ fi
 if [ -d $HOME/.dotfiles/bin ]; then
     PATH=$HOME/.dotfiles/bin:$PATH
 
-    # sync dotfiles at least once a day on login
+    # sync dotfiles at least once a week on login
     dotlock="/tmp/lock-${UID}-dotfiles"
     if [[ ! -e $dotlock ]]; then
         $HOME/.dotfiles/bin/dotfiles
         touch $dotlock
     else # lock exists
-        if [[ "`find $dotlock -mmin +1440`" ]]; then
+        if [[ "`find $dotlock -mmin +10080`" ]]; then
             $HOME/.dotfiles/bin/dotfiles
             touch $dotlock
         fi
