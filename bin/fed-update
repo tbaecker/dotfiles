@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# user <> root -> sudo
+# ---------------------------------------------------------------------
+SUDO_PREFIX=''
+if [ $UID -ne 0 ]; then
+    SUDO_PREFIX='sudo '
+fi
+
+
+#${SUDO_PREFIX}dnf check-update
+${SUDO_PREFIX}dnf upgrade
+${SUDO_PREFIX}dnf clean packages
+
